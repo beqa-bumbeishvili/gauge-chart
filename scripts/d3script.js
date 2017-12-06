@@ -12,13 +12,18 @@ function renderChart(params) {
   // Exposed variables
   var attrs = {
     id: "ID" + Math.floor(Math.random() * 1000000),  // Id for event handlings
-    svgWidth: 400,
-    svgHeight: 400,
+    svgWidth: 1000,
+    svgHeight: 1000,
+    chartWidth: 300,
+    chartHeight: 300,
     marginTop: 5,
     marginBottom: 5,
     marginRight: 5,
     marginLeft: 5,
     container: 'body',
+    labelsSpacing: 40,
+    innerRadius: 125,
+    cornerRadius: 15,
     data: null
   };
 
@@ -37,6 +42,26 @@ function renderChart(params) {
       calc.chartTopMargin = attrs.marginTop;
       calc.chartWidth = attrs.svgWidth - attrs.marginRight - calc.chartLeftMargin;
       calc.chartHeight = attrs.svgHeight - attrs.marginBottom - calc.chartTopMargin;
+      calc.chartRadius = Math.min(attrs.chartWidth, attrs.chartHeight) / 2;
+      calc.angleRange = 0.5 * Math.PI;
+
+      //Scales
+      var scales = {}
+      scales.colorRange = d3.scaleOrdinal().range(["#2C93E8", "#838690", "#F56C4E"]);
+
+      //Arcs
+      var arcs = {}
+
+      //chart arc
+      arcs.mainArc = d3.arc()
+        .outerRadius(calc.chartRadius - 10)
+        .innerRadius(attrs.innerRadius)
+        .cornerRadius(12);
+
+      //arc for labels  
+      arcs.labelArc = d3.arc()
+        .outerRadius(calc.chartRadius - attrs.labelsSpacing)
+        .innerRadius(calc.chartRadius - attrs.labelsSpacing)
 
       //Drawing containers
       var container = d3.select(this);
@@ -44,11 +69,38 @@ function renderChart(params) {
       //Add svg
       var svg = container.patternify({ tag: 'svg', selector: 'svg-chart-container' })
         .attr('width', attrs.svgWidth)
-        .attr('height', attrs.svgHeight)
+        .attr('height', attrs.svgHeight);
 
       //Add container g element
       var chart = svg.patternify({ tag: 'g', selector: 'chart' })
-        .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')');
+        .attr("transform", "translate(" + calc.chartWidth / 4 + "," + calc.chartHeight / 5 + ")");
+
+      //create pie layout
+      var pie = d3.pie()
+        .startAngle(calc.angleRange * -1)
+        .endAngle(calc.angleRange)
+        .value(function (d) { return d.presses; })(attrs.data);
+
+      //pie group
+      var pieGroup = chart.selectAll("arc")
+        .data(pie)
+        .enter().append("g")
+        .attr("class", "arc");
+
+      //display chart
+      pieGroup.append("path")
+        .attr("d", arcs.mainArc)
+        .style("stroke", "#fff")
+        .attr('stroke-width',5)
+        .style("fill", function (d) { return scales.colorRange(d.data.letter); });
+
+      //display labels
+      pieGroup.append("text")
+        .attr("transform", function (d) {
+          return "translate(" + arcs.labelArc.centroid(d) + ")";
+        })
+        .text(function (d) { return d.data.letter; })
+        .style("fill", "#fff");
 
       // Smoothly handle data updating
       updateData = function () {
@@ -89,13 +141,13 @@ function renderChart(params) {
 
     // Pattern in action
     var selection = container.selectAll('.' + selector).data(data, (d, i) => {
-            if (typeof d === "object") {
-                if (d.id) {
-                    return d.id;
-                }
-            }
-            return i;
-        })
+      if (typeof d === "object") {
+        if (d.id) {
+          return d.id;
+        }
+      }
+      return i;
+    })
     selection.exit().remove();
     selection = selection.enter().append(elementTag).merge(selection)
     selection.attr('class', selector);

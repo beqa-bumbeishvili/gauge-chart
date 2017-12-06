@@ -21,16 +21,13 @@
     <script src="scripts/d3script.js"></script>
 
     <script>
-
+        var data = [{ "letter": "q", "presses": 1 }, { "letter": "w", "presses": 3 }, { "letter": "e", "presses": 2 }];
 
           var chart = renderChart()
-                .svgHeight(window.innerHeight-30)
-                .svgWidth(window.innerWidth-30)
                 .container('#myGraph')
-                .data('Pass Something Here and use it as attrs.data')
+                .data(data)
                 .debug(true)
                 .run()
-
 
     </script>
 
