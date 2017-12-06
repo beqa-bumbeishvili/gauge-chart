@@ -45,10 +45,6 @@ function renderChart(params) {
       calc.chartRadius = Math.min(attrs.chartWidth, attrs.chartHeight) / 2;
       calc.angleRange = 0.5 * Math.PI;
 
-      //Scales
-      var scales = {}
-      scales.colorRange = d3.scaleOrdinal().range(["#2C93E8", "#838690", "#F56C4E"]);
-
       //Arcs
       var arcs = {}
 
@@ -92,15 +88,7 @@ function renderChart(params) {
         .attr("d", arcs.mainArc)
         .style("stroke", "#fff")
         .attr('stroke-width',5)
-        .style("fill", function (d) { return scales.colorRange(d.data.letter); });
-
-      //display labels
-      pieGroup.append("text")
-        .attr("transform", function (d) {
-          return "translate(" + arcs.labelArc.centroid(d) + ")";
-        })
-        .text(function (d) { return d.data.letter; })
-        .style("fill", "#fff");
+        .style("fill", function (d) {return d.data.color; });
 
       // Smoothly handle data updating
       updateData = function () {

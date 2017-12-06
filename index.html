@@ -21,13 +21,14 @@
     <script src="scripts/d3script.js"></script>
 
     <script>
-        var data = [{ "letter": "q", "presses": 1 }, { "letter": "w", "presses": 3 }, { "letter": "e", "presses": 2 }];
+        var data = [{ "color": "#AB262A", "presses": 110 }, { "color": "#FF0000", "presses": 100 }, { "color": "#FFA500", "presses": 90 },
+        { "color": "#019600", "presses": 100 }, { "color": "#0083DD", "presses": 100 }];
 
-          var chart = renderChart()
-                .container('#myGraph')
-                .data(data)
-                .debug(true)
-                .run()
+        var chart = renderChart()
+            .container('#myGraph')
+            .data(data)
+            .debug(true)
+            .run()
 
     </script>
 
