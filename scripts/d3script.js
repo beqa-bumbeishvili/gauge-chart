@@ -57,11 +57,6 @@ function renderChart(params) {
         .innerRadius(attrs.innerRadius)
         .cornerRadius(12);
 
-      //arc for labels  
-      arcs.labelArc = d3.arc()
-        .outerRadius(calc.chartRadius - attrs.labelsSpacing)
-        .innerRadius(calc.chartRadius - attrs.labelsSpacing)
-
       //Drawing containers
       var container = d3.select(this);
 
@@ -79,7 +74,7 @@ function renderChart(params) {
         .startAngle(calc.angleRange * -1)
         .endAngle(calc.angleRange)
         .value(function (d) { return d.presses; })(attrs.data);
-
+        
       //pie group
       var pieGroup = chart.selectAll("arc")
         .data(pie)
