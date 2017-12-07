@@ -23,7 +23,10 @@ function renderChart(params) {
     container: 'body',
     labelsSpacing: 40,
     innerRadius: 125,
+    borderWidthForSubstraction:10,
     cornerRadius: 15,
+    borderDotRadius: 15,
+    dotStrokeWidth: 10,
     data: null
   };
 
@@ -50,7 +53,7 @@ function renderChart(params) {
 
       //chart arc
       arcs.mainArc = d3.arc()
-        .outerRadius(calc.chartRadius - 10)
+        .outerRadius(calc.chartRadius - attrs.borderWidthForSubstraction)
         .innerRadius(attrs.innerRadius)
         .cornerRadius(12);
 
@@ -87,8 +90,24 @@ function renderChart(params) {
       pieGroup.append("path")
         .attr("d", arcs.mainArc)
         .style("stroke", "#fff")
-        .attr('stroke-width',5)
-        .style("fill", function (d) {return d.data.color; });
+        .attr('stroke-width', 5)
+        .style("fill", function (d) { return d.data.color; });
+
+      //create group element for border dot
+      var dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
+        .attr("transform", getPositionFromValue(200));
+
+      var borderDot = dotGroup
+        .patternify({ tag: 'circle', selector: 'border-dot' })
+        .attr('r',attrs.borderDotRadius)
+        .attr('fill','#FFFFFF')
+        .attr('stroke','#1799CE')
+        .attr('stroke-width',attrs.dotStrokeWidth);
+
+        //Functions
+        function getPositionFromValue(value){
+          return "translate(" + -92 + "," + -95 + ")";
+        }
 
       // Smoothly handle data updating
       updateData = function () {
