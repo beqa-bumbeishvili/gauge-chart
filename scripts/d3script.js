@@ -23,7 +23,7 @@ function renderChart(params) {
     container: 'body',
     labelsSpacing: 40,
     innerRadius: 125,
-    borderWidthForSubstraction:10,
+    borderWidthForSubstraction: 10,
     cornerRadius: 15,
     borderDotRadius: 15,
     dotStrokeWidth: 10,
@@ -74,7 +74,7 @@ function renderChart(params) {
         .startAngle(calc.angleRange * -1)
         .endAngle(calc.angleRange)
         .value(function (d) { return d.presses; })(attrs.data);
-        
+
       //pie group
       var pieGroup = chart.selectAll("arc")
         .data(pie)
@@ -92,17 +92,18 @@ function renderChart(params) {
       var dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
         .attr("transform", getPositionFromValue(200));
 
+      //border dot 
       var borderDot = dotGroup
         .patternify({ tag: 'circle', selector: 'border-dot' })
-        .attr('r',attrs.borderDotRadius)
-        .attr('fill','#FFFFFF')
-        .attr('stroke','#1799CE')
-        .attr('stroke-width',attrs.dotStrokeWidth);
+        .attr('r', attrs.borderDotRadius)
+        .attr('fill', '#FFFFFF')
+        .attr('stroke', '#1799CE')
+        .attr('stroke-width', attrs.dotStrokeWidth);
 
-        //Functions
-        function getPositionFromValue(value){
-          return "translate(" + -92 + "," + -95 + ")";
-        }
+      //Functions
+      function getPositionFromValue(value) {
+        return "translate(" + -128 + "," + -30 + ")";
+      }
 
       // Smoothly handle data updating
       updateData = function () {
