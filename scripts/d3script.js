@@ -102,7 +102,8 @@ function renderChart(params) {
 
       //Functions
       function getPositionFromValue(value) {
-        return "translate(" + -128 + "," + -30 + ")";
+        // return "translate(" + 0 + "," + -130 + ")"; //250
+        return "translate(" + -130 + "," + -20 + ")";  //0
       }
 
       // Smoothly handle data updating
