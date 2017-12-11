@@ -90,7 +90,7 @@ function renderChart(params) {
 
       //create group element for border dot
       var dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
-        .attr("transform", getPositionFromValue(200));
+        .attr("transform", getPositionFromValue(230));
 
       //border dot 
       var borderDot = dotGroup
@@ -102,8 +102,38 @@ function renderChart(params) {
 
       //Functions
       function getPositionFromValue(value) {
+        var initialX = -130, initialY = -20;
+        var dotX = initialX + value / defineProperXRange(value);
+        var dotY = initialY - ((value <= 250 ? value : 500 - value) / (250 / 110));
         // return "translate(" + 0 + "," + -130 + ")"; //250
-        return "translate(" + -130 + "," + -20 + ")";  //0
+        return "translate(" + dotX + "," + dotY + ")";  //0
+      }
+
+      function defineProperXRange(value) {
+        value = value < 250 ? value : 500 - value;
+        if (value < 50)
+          return 10;
+        else if (value < 70)
+          return 8;
+        else if (value < 100)
+          return 7;
+        else if (value < 130)
+          return 6;
+        else if (value < 170)
+          return 5;
+        else if (value < 200)
+          return 4;
+        else if (value < 215)
+          return 3.5;
+        else if (value < 230)
+          return 3;
+        else if (value < 240)
+          return 2.5;
+        else if (value < 245)
+          return 2.2;
+        else if (value < 250)
+          return 1.9;
+        else return 2;
       }
 
       // Smoothly handle data updating
