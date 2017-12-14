@@ -27,6 +27,9 @@ function renderChart(params) {
     cornerRadius: 15,
     borderDotRadius: 15,
     dotStrokeWidth: 10,
+    centerTextX: -60,
+    centerTextY: 10,
+    centerTextFontSize: 60,
     data: null
   };
 
@@ -90,7 +93,18 @@ function renderChart(params) {
 
       //create group element for border dot
       var dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
-        .attr("transform", getPositionFromValue(500));
+        .attr("transform", getPositionFromValue(200));
+
+        //number text
+      var centerText = chart
+        .patternify({ tag: 'text', selector: 'center-text' })
+        .text('200')
+        .attr('font-family', 'Verdana')
+        .attr('font-size', attrs.centerTextFontSize)
+        .attr('x', attrs.centerTextX)
+        .attr('y', attrs.centerTextY)
+        .attr('font-weight', 'bold')
+        .attr('fill', '#1799CE');
 
       //border dot 
       var borderDot = dotGroup
