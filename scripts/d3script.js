@@ -95,16 +95,11 @@ function renderChart(params) {
       var dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
         .attr("transform", getPositionFromValue(200));
 
-        //number text
-      var centerText = chart
-        .patternify({ tag: 'text', selector: 'center-text' })
-        .text('200')
-        .attr('font-family', 'Verdana')
-        .attr('font-size', attrs.centerTextFontSize)
-        .attr('x', attrs.centerTextX)
-        .attr('y', attrs.centerTextY)
-        .attr('font-weight', 'bold')
-        .attr('fill', '#1799CE');
+      //show number in the center of chart
+      displayCenterText(200);
+
+      // show curved measure writings
+      displayCurvedTexts(chart);
 
       //border dot 
       var borderDot = dotGroup
@@ -124,6 +119,32 @@ function renderChart(params) {
         if (initialValue > 250)
           dotX = -dotX;
         return "translate(" + dotX + "," + dotY + ")";  //0
+      }
+
+      function displayCenterText(value) {
+        //number text
+        var centerText = chart
+          .patternify({ tag: 'text', selector: 'center-text' })
+          .text(value)
+          .attr('font-family', 'Verdana')
+          .attr('font-size', attrs.centerTextFontSize)
+          .attr('x', attrs.centerTextX)
+          .attr('y', attrs.centerTextY)
+          .attr('font-weight', 'bold')
+          .attr('fill', '#1799CE');
+      }
+
+      function displayCurvedTexts(chart) {
+        // <path id="curve" fill="transparent" d="M 25,50 C 25,100 150,100 150,50"></path>
+        var pathData = "M 0,0 C -1,0 15,-55 30,-55";
+        firstTextPath = chart.patternify({ tag: 'path' })
+          .attr("id", "curve")
+          .attr("fill", "transparent")
+          .attr("d", pathData);
+
+        var textGroup = chart.patternify({ tag: 'g' }).attr('transform', 'translate(-110,-10)');
+        var firstText = textGroup.patternify({ tag: 'text' }).attr('width', 500);
+        var textPath = firstText.patternify({ tag: 'textPath' }).attr('xlink:href', '#curve').text('0-150 points').attr('font-size', 12);
       }
 
       function defineProperXRange(value) {
