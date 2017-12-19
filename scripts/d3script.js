@@ -99,7 +99,7 @@ function renderChart(params) {
       displayCenterText(200);
 
       // show curved measure writings
-      displayCurvedTexts(chart);
+      // displayCurvedTexts(chart);
 
       //border dot 
       var borderDot = dotGroup
@@ -134,18 +134,31 @@ function renderChart(params) {
           .attr('fill', '#1799CE');
       }
 
-      function displayCurvedTexts(chart) {
-        // <path id="curve" fill="transparent" d="M 25,50 C 25,100 150,100 150,50"></path>
-        var pathData = "M 0,0 C -1,0 15,-55 30,-55";
-        firstTextPath = chart.patternify({ tag: 'path' })
-          .attr("id", "curve")
-          .attr("fill", "transparent")
-          .attr("d", pathData);
+      // function displayCurvedTexts(chart) {
+      //   var pathData = "M 0,0 C -1,0 15,-55 30,-55";
+      //   var textPath = chart.patternify({ tag: 'path' })
+      //     .attr("id", "curve")
+      //     .attr("fill", "transparent")
+      //     .attr("d", pathData);
 
-        var textGroup = chart.patternify({ tag: 'g' }).attr('transform', 'translate(-110,-10)');
-        var firstText = textGroup.patternify({ tag: 'text' }).attr('width', 500);
-        var textPath = firstText.patternify({ tag: 'textPath' }).attr('xlink:href', '#curve').text('0-150 points').attr('font-size', 12);
-      }
+      //   var textGroup = chart.patternify({ tag: 'g' }).attr('transform', 'translate(-110,-10)');
+      //   var text = textGroup.patternify({ tag: 'text' }).attr('width', 500);
+      //   var textPath = text.patternify({ tag: 'textPath' }).attr('xlink:href', '#curve').text('0-150 points').attr('font-size', 12);
+      //   displaySecondText(chart);
+      // }
+
+      // function displaySecondText(chart) {
+      //   var pathData = "M 0,0 C -1,0 85,-5 90,-5";
+      //   var textPath = chart.patternify({ tag: 'path' })
+      //     .attr("id", "curve")
+      //     // .attr("fill", "transparent")
+      //     .attr("d", pathData);
+
+      //   var textGroup = chart.patternify({ tag: 'g' }).attr('transform', 'translate(-70,-70)');
+      //   var firstText = textGroup.patternify({ tag: 'text' }).attr('width', 500);
+      //   var textPath = firstText.patternify({ tag: 'textPath' }).attr('xlink:href', '#curve').text('150-300 points').attr('font-size', 12);
+      //   // displaySecondText();
+      // }
 
       function defineProperXRange(value) {
         if (value < 50)
