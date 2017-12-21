@@ -93,10 +93,7 @@ function renderChart(params) {
 
       //create group element for border dot
       var dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
-        .attr("transform", getPositionFromValue(200));
-
-      //show number in the center of chart
-      displayCenterText(200);
+        .attr("transform", getPositionFromValue(130));
 
       // show curved measure writings
       // displayCurvedTexts(chart);
@@ -111,6 +108,9 @@ function renderChart(params) {
 
       //Functions
       function getPositionFromValue(value) {
+        //show number in the center of chart
+        displayCenterText(value);
+
         var initialValue = value;
         value = value < 250 ? value : 500 - value;
         var initialX = -130, initialY = -20;
@@ -122,8 +122,10 @@ function renderChart(params) {
       }
 
       function displayCenterText(value) {
+        var centerTextGroup = chart.patternify({ tag: 'g', selector: 'center-text-container' });
+
         //number text
-        var centerText = chart
+        var centerText = centerTextGroup
           .patternify({ tag: 'text', selector: 'center-text' })
           .text(value)
           .attr('font-family', 'Verdana')
