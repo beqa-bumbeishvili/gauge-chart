@@ -85,21 +85,24 @@ function renderChart(params) {
         .attr("class", "arc");
 
       //display chart
-      pieGroup.append("path")
+      var piePath = pieGroup.append("path")
         .attr("d", arcs.mainArc)
         .style("stroke", "#fff")
         .attr('stroke-width', 5)
         .style("fill", function (d) { return d.data.color; });
 
       //create group element for border dot
-      var dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
-        .attr("transform", getPositionFromValue(200));
+      attrs.dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
+        .attr("transform", getPositionFromValue(0));
+
+      //repeatedly change text adn value
+      var myVar = setInterval(animateChart, 1000);
 
       // show curved measure writings
       displayCurvedTexts(chart);
 
       // //border dot 
-      var borderDot = dotGroup
+      var borderDot = attrs.dotGroup
         .patternify({ tag: 'circle', selector: 'border-dot' })
         .attr('r', attrs.borderDotRadius)
         .attr('fill', '#FFFFFF')
@@ -121,11 +124,18 @@ function renderChart(params) {
         return "translate(" + dotX + "," + dotY + ")";  //0
       }
 
+      function animateChart() {
+        var value = Math.floor((Math.random() * 500) + 0);
+        attrs.centerTextGroup.remove();
+        attrs.dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
+          .attr("transform", getPositionFromValue(value));
+      }
+
       function displayCenterText(value) {
-        var centerTextGroup = chart.patternify({ tag: 'g', selector: 'center-text-container' });
+        attrs.centerTextGroup = chart.patternify({ tag: 'g', selector: 'center-text-container' });
 
         //number text
-        var centerText = centerTextGroup
+        var centerText = attrs.centerTextGroup
           .patternify({ tag: 'text', selector: 'center-text' })
           .text(value)
           .attr('font-family', 'Verdana')
@@ -160,7 +170,7 @@ function renderChart(params) {
           .attr('font-size', 10.9);
       }
 
-      function getMeasureText(){
+      function getMeasureText() {
         return '0-150 points ' + '\xa0\xa0' + '150-300 points ' + '\xa0\xa0' + ' 300-350 points ' + '\xa0\xa0' + '350-500 points';
       }
 
