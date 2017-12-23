@@ -93,12 +93,12 @@ function renderChart(params) {
 
       //create group element for border dot
       var dotGroup = chart.patternify({ tag: 'g', selector: 'border-dot-group' })
-        .attr("transform", getPositionFromValue(79));
+        .attr("transform", getPositionFromValue(200));
 
       // show curved measure writings
       displayCurvedTexts(chart);
 
-      //border dot 
+      // //border dot 
       var borderDot = dotGroup
         .patternify({ tag: 'circle', selector: 'border-dot' })
         .attr('r', attrs.borderDotRadius)
@@ -146,7 +146,7 @@ function renderChart(params) {
       }
 
       function displayCurvedTexts(chart) {
-        var pathData = "M 15,0 C 40,-110 170,-130 205,5";
+        var pathData = "M 10,-5 C 40,-115 180,-115 210,-5";
         var textPath = chart.patternify({ tag: 'path' })
           .attr("id", "curve")
           .attr("fill", "transparent")
